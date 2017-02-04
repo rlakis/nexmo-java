@@ -20,23 +20,26 @@ package com.nexmo.client.voice;/*
  * THE SOFTWARE.
  */
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.ArrayIterator;
+import com.nexmo.client.HttpWrapper;
 import com.nexmo.client.NexmoUnexpectedException;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.ListIterator;
 
-public class CallsPage implements Iterable<Call> {
+public class CallsPage implements Page<Call> {
     private int count;
     private int pageSize;
     private int recordIndex;
 
+    private HttpWrapper wrapper;
     private PageLinks links;
     private EmbeddedCalls embedded;
 
+    @Override
     public int getCount() {
         return count;
     }
@@ -57,13 +60,22 @@ public class CallsPage implements Iterable<Call> {
     }
 
     @JsonProperty("_embedded")
-    public EmbeddedCalls getEmbedded() {
+    protected EmbeddedCalls getEmbedded() {
         return embedded;
+    }
+
+    @JsonIgnore
+    public Call[] getCalls() {
+        return embedded.getCalls();
     }
 
     @Override
     public Iterator<Call> iterator() {
         return new ArrayIterator<>(embedded.getCalls());
+    }
+
+    @Override
+    public Page<Call> nextPage() {
     }
 
     public static CallsPage fromJson(String json) {

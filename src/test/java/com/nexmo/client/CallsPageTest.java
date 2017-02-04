@@ -77,7 +77,8 @@ public class CallsPageTest {
     @Test
     public void testBasics() {
         assertEquals("/calls?page_size=10&record_index=20&order=asc", page.getLinks().getSelf().getHref());
-        assertEquals("441632960960", page.getEmbedded().getCalls()[0].getTo()[0].getNumber());
+        assertNotNull(page.getCalls());
+        assertEquals("441632960960", page.getCalls()[0].getTo()[0].getNumber());
     }
 
     @Test
