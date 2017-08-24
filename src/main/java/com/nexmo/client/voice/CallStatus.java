@@ -27,14 +27,17 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum CallStatus {
     STARTED,
     RINGING,
-    ANSWERED,
-    TIMEOUT,
+    ANSWERED,    
     MACHINE,
     COMPLETED,
+    TIMEOUT,
+    
     FAILED,
     REJECTED,
     BUSY,
-    CANCELLED;
+    
+    CANCELLED,
+    UNANSWERED;
 
     @JsonValue
     @Override
